@@ -1,0 +1,9 @@
+services:
+  nest_user_service:
+    container_name: nest_user_service
+    build: .
+    image: nest-mongo:0.0.1
+    env_file:
+      - ./.env
+    ports:
+      - "3000:3000"
