@@ -7,24 +7,18 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
+import { UserDto } from './dtos/users.dto';
 
 @Controller('users')
+@ApiTags('Users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async createOneUser(
-    @Body('name') name: string,
-    @Body('surname') surname: string,
-    @Body('points') points: number,
-  ) {
-    const generatedId = await this.usersService.createOneUser(
-      name,
-      surname,
-      points,
-    );
-    return { id: generatedId };
+  async createUser(@Body() user: UserDto) {
+    return this.usersService.createUser(user.name, user.surname, user.points);
   }
 
   @Get()
@@ -38,19 +32,17 @@ export class UsersController {
   }
 
   @Patch(':id')
-  updateUser(
-    @Param('id') userId: string,
-    @Body('name') userName: string,
-    @Body('surname') userSurname: string,
-    @Body('points') userPoints: number,
-  ) {
-    this.usersService.updateUser(userId, userName, userSurname, userPoints);
-    return null;
+  updateUser(@Param('id') userId: string, @Body() user: UserDto) {
+    return this.usersService.updateUser(
+      userId,
+      user.name,
+      user.surname,
+      user.points,
+    );
   }
 
   @Delete(':id')
   deleteUser(@Param('id') userId: string) {
-    this.usersService.deleteUser(userId);
-    return null;
+    return this.usersService.deleteUser(userId);
   }
 }

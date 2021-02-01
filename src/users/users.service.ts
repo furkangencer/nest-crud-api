@@ -9,20 +9,20 @@ export class UsersService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
   /**
-   * Create One User
+   * Create User
    *
    * @param name
    * @param surname
    * @param points
    */
-  async createOneUser(name: string, surname: string, points: number) {
+  async createUser(name: string, surname: string, points: number) {
     const newUser = new this.userModel({
       name,
       surname,
       points,
     });
-    const result = await newUser.save();
-    return result.id as string;
+    return newUser.save();
+    // return result.id as string;
   }
 
   /**
@@ -65,7 +65,7 @@ export class UsersService {
     if (surname) modUser.surname = surname;
     if (points) modUser.points = points;
 
-    modUser.save();
+    return modUser.save();
   }
 
   async deleteUser(userId: string) {
@@ -73,6 +73,7 @@ export class UsersService {
     if (result.n === 0) {
       throw new NotFoundException('Could not find user.');
     }
+    return { success: true };
   }
 
   private async findUser(id: string): Promise<User> {
