@@ -18,6 +18,8 @@ Run the command below and docker will serve the API on port 3000.
 $ docker-compose up -d --build nest_user_service
 ```
 
+Visit `http://localhost:3000/api` for Swagger UI.
+
 ## Running the app
 
 ```bash
